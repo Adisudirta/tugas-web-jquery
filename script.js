@@ -1,8 +1,3 @@
-const btnSubmit = document.getElementById("btn-submit");
-const inputName = document.querySelector("input#name");
-const inputNim = document.querySelector("input#nim");
-const dataContainer = document.querySelector(".data-container");
-
 let mainStorage = [];
 
 function removeData(id) {
@@ -40,43 +35,42 @@ function editData(id) {
   alert("Edit data berhasil dilakukan!");
 }
 
+function editHandler(e) {
+  console.log(e);
+  const dataId = e.target.getAttribute("dataId");
+  editData(dataId);
+}
+
+function deleteHandler(e) {
+  const dataId = e.target.getAttribute("dataId");
+  removeData(dataId);
+}
+
 function getData() {
-  dataContainer.innerHTML = "";
+  $(".data-container").html("");
+
   mainStorage.forEach(function (el, i) {
-    dataContainer.innerHTML += `
+    $(".data-container").append(`
     <tr>
-        <td>${i + 1}</td>
-        <td>${el.nim}</td>
-        <td>${el.name}</td>
-        <td>
-            <button dataId="${i}" class="edit-btn">Edit</button> 
-            <button dataId="${i}" class="delete-btn">Delete</button>
-        </td>
-    </tr>
-   `;
-  });
-
-  const deleteButtons = dataContainer.querySelectorAll(".delete-btn");
-  deleteButtons.forEach(function (button) {
-    button.addEventListener("click", function (e) {
-      const dataId = e.target.getAttribute("dataId");
-      removeData(dataId);
-    });
-  });
-
-  const editButtons = dataContainer.querySelectorAll(".edit-btn");
-  editButtons.forEach(function (button) {
-    button.addEventListener("click", function (e) {
-      const dataId = e.target.getAttribute("dataId");
-      editData(dataId);
-    });
+         <td>${i + 1}</td>
+         <td>${el.nim}</td>
+         <td>${el.name}</td>
+         <td>
+             <button dataId="${i}" onclick="editHandler(event)" class="edit-btn">Edit</button> 
+             <button dataId="${i}" onclick="deleteHandler(event)" class="delete-btn">Delete</button>
+         </td>
+     </tr>
+    `);
   });
 }
 
-btnSubmit.addEventListener("click", (e) => {
+$("#btn-submit").click(function (e) {
   e.preventDefault();
 
-  mainStorage.push({ name: inputName.value, nim: inputNim.value });
+  mainStorage.push({
+    name: $("input#name").val(),
+    nim: $("input#nim").val(),
+  });
 
   getData();
 
