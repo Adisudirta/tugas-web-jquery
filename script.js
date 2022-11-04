@@ -25,8 +25,7 @@ function removeData(id) {
 function editData(id) {
   for (let i = 0; i < mainStorage.length; i++) {
     if (i == id) {
-      mainStorage[i].name = prompt(`Edit "${mainStorage[i].name}" menjadi...`);
-      mainStorage[i].nim = prompt(`Edit "${mainStorage[i].nim}" menjadi...`);
+      $("#editModal").show();
     }
   }
 
@@ -52,14 +51,14 @@ function getData() {
   mainStorage.forEach(function (el, i) {
     $(".data-container").append(`
     <tr>
-         <td>${i + 1}</td>
-         <td>${el.nim}</td>
-         <td>${el.name}</td>
-         <td>
-             <button dataId="${i}" onclick="editHandler(event)" class="edit-btn">Edit</button> 
-             <button dataId="${i}" onclick="deleteHandler(event)" class="delete-btn">Delete</button>
-         </td>
-     </tr>
+            <th scope="row">${i + 1}</th>
+            <td>${el.name}</td>
+            <td>${el.nim}</td>
+            <td>
+                <button dataId="${i}" onclick="editHandler(event)" type="button" class="btn btn-warning" data-toggle="modal" data-target="#centralModalSuccess">Edit</button>                
+                <button dataId="${i}" onclick="deleteHandler(event)" class="btn btn-danger mx-3">Delete</button>
+            </td>
+          </tr>
     `);
   });
 }
